@@ -1,0 +1,43 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+header{
+    height: 80px;
+    width: 100%;
+    background-color: black;
+}
+
+.container{
+    height: 100%;
+    width: 1070px;
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    margin: auto;
+}
+
+#movies-text{
+    height: 30px;
+    width: 300px;
+    margin-top: 25px;
+}
+
+#search{
+    height: 30px;
+    width: 60px;
+    margin-top: 25px;
+}
+
+.movie{
+    margin: 10px 0;
+    padding: 10px;
+    width: 250px;
+}
+
+.flag{
+    width: 25px;
+    height: 25px;
+}

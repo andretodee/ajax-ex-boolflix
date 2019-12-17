@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
+         <link rel="stylesheet" href="style.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="script.js" charset="utf-8"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.1.2/handlebars.min.js"></script>
+        <title>Boolflix</title>
+    </head>
+    <body>
+        <header>
+
+            <input id="movies-text" type="text" placeholder="inserisci titolo di un film">
+            <button id="search"> Search </button>
+
+        </header>
+        <div class="container">
+
+        </div>
+
+        <script id="entry-template" type="text/x-handlebars-template">
+            <div class="movie">
+                <ul>
+                    <li>{{ titolo }}</li>
+                    <li>{{ titolo_originale }}</li>
+                    <li>{{{ lingua }}}</li>
+                    <li>{{{ voto }}}</li>
+                </ul>
+
+            </div>
+        </script>
+
+
+
+
+
+    </body>
+</html>
