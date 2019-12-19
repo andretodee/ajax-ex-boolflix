@@ -8,6 +8,7 @@ $(document).ready(function(){
     // })
 
 
+
   //intercetto il click sul pulsante
   $('#search').click(function(){
 
@@ -21,7 +22,7 @@ $(document).ready(function(){
       // ad ogni clik faccio una chiamata ajax
 
 
-//chiamata ajax per ottenere i film
+      //chiamata ajax per ottenere i film
       $.ajax({
           'url': 'https://api.themoviedb.org/3' + '/search/movie',
           'data': {
@@ -32,6 +33,7 @@ $(document).ready(function(){
           'success': function(data){
 
               var filmTrovati = data.results;
+              // console.log(filmTrovati);
 
               stampaRisultati(filmTrovati);
 
@@ -43,7 +45,7 @@ $(document).ready(function(){
       });
       //chiamata ajax per ottenere le serie
       $.ajax({
-          'url': 'https://api.themoviedb.org/3/search/tv',
+          'url': 'https://api.themoviedb.org/3' + '/search/tv',
           'data': {
               'api_key': '6b3cd5d3e2b37d08e79608e6b6eaa004',
               'query': filmCercato
@@ -61,8 +63,12 @@ $(document).ready(function(){
           }
 
       });
-
   });
+      // $('.movie').mouseenter(function(){
+      //     $(this).children('.copertina').removeClass('active');
+      //     $(this).children('.info').addClass('active');
+      // });
+
 
 });
 
@@ -110,6 +116,10 @@ function stampaRisultati(filmTrovati){
         var source = $("#entry-template").html();
         var template = Handlebars.compile(source);
 
+        // predispongo le variabili per gestire le immagini di copertina
+        var image_base_url = 'https://image.tmdb.org/t/p/';
+        var image_size = 'w342';
+
         var filmTrovato = filmTrovati[i];
         //verifico se il risultato ha come proprieta title o no
         if(filmTrovato.hasOwnProperty('title')){
@@ -125,13 +135,25 @@ function stampaRisultati(filmTrovati){
 
 
         var linguaTrovata = filmTrovato.original_language;
+        var descrizioneTrovata = filmTrovato.overview;
+
+        // controllo se la copertina è presente nella API
+        // se è cosi la metto nella variabile copertinaTrovata
+        // se non è cosi metto nella variabile un altra immagine
+        if(filmTrovato.poster_path != null){
+            var copertinaTrovata = image_base_url + image_size + filmTrovato.poster_path;
+        } else {
+            var copertinaTrovata = 'https://www.gardensbythebay.com.sg/etc/designs/gbb/clientlibs/images/common/not_found.jpg'
+        };
 
         var context = {
             titolo: '<h2>' + titoloTrovato + '</h2>',
             titolo_originale: titoloOriginaleTrovato,
             tipo: tipo,
             lingua: votoToStelle(votoTrovato),
-            voto: bandiere(linguaTrovata)
+            voto: bandiere(linguaTrovata),
+            copertina_film: copertinaTrovata,
+            descrizione: descrizioneTrovata
         };
         console.log(context);
 
