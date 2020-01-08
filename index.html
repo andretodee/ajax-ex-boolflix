@@ -3,11 +3,11 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
-         <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="style.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-        <script src="script.js" charset="utf-8"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.1.2/handlebars.min.js"></script>
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
+        <script src="script.js" charset="utf-8"></script>
         <title>Boolflix</title>
     </head>
     <body>
@@ -17,6 +17,14 @@
                     <h2>boolflix</h2>
 
                 </div>
+                <select class="lingua">
+                    <option value="it-IT">IT</option>
+                    <option value="en">EN</option>
+                    <option value="es">ES</option>
+                    <option value="fr">FR</option>
+
+                </select>
+
                 <div class="search-side">
                     <input id="movies-text" type="text" placeholder="inserisci titolo di un film">
                     <button id="search"> Search </button>
@@ -31,22 +39,39 @@
 
         <script id="entry-template" type="text/x-handlebars-template">
 
-            <div class="movie">
+            <div class="movie" data-id="{{ id }}">
 
-                <div class="copertina">
-                    <img src="{{ copertina_film }}" alt="immagine {{ titolo }}">
+                <div class="flip">
+                    <div class="copertina">
+                        <img src="{{ copertina_film }}" alt="immagine {{ titolo }}">
+                    </div>
+
+                    <div class="info">
+                        <ul>
+                            <li>{{{ titolo }}}</li>
+                            <li>{{ titolo_originale }}</li>
+                            <li>{{ tipo }}</li>
+                            <li>{{{ lingua }}}</li>
+                            <li>{{{ voto }}}</li>
+                            <li>{{ descrizione }}</li>
+                            <button class="more">more info</button>
+                            <span>{{ genere }}</span>
+                        </ul>
+                    </div>
+
+                    <div class="moreInfo">
+                        <ul>
+                            <li>{{ genere }}</li>
+                            <li></li>
+                            <li></li>
+
+                        </ul>
+
+                    </div>
+
+
                 </div>
 
-                <div class="info">
-                    <ul>
-                        <li>{{{ titolo }}}</li>
-                        <li>{{ titolo_originale }}</li>
-                        <li>{{ tipo }}</li>
-                        <li>{{{ lingua }}}</li>
-                        <li>{{{ voto }}}</li>
-                        <li>{{ descrizione }}</li>
-                    </ul>
-                </div>
             </div>
         </script>
 

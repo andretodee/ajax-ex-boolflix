@@ -2,68 +2,37 @@
 // Allarghiamo poi la ricerca anche alle serie tv. Con la stessa azione di ricerca dovremo prendere sia i film che corrispondono alla query, sia le serie tv, stando attenti ad avere alla fine dei valori simili (le serie e i film hanno campi nel JSON di risposta diversi, simili ma non sempre identici)
 $(document).ready(function(){
 
-    //intercetto il tasto invio
-    // $('#search').keypress(function(){
-    //
-    // })
+    //var doc = $(document);
+
+    //doc.on('click', '.more', function(){
+        //var thisId = $(this).siblings('.info span').html();
+        //console.log(thisId);
+
+
+
+    //})
+
+
+
+  $("#movies-text").on("keyup", function(event) {
+  // Number 13 is the "Enter" key on the keyboard
+  if (event.which == 13) {
+    // Cancel the default action, if needed
+    event.preventDefault();
+    getResults()
+  }
+});
 
 
 
   //intercetto il click sul pulsante
   $('#search').click(function(){
+      getResults()
 
-      // trovo il testo inserito dall'utente
-      var filmCercato = $('#movies-text').val();
-
-      //resetto l'input dopo aver cercato il film
-      $('#movies-text').val('');
-      //nascondo tutti i risultati ogni volta che mando una nuova ricerca
-      $('.container').empty();
-      // ad ogni clik faccio una chiamata ajax
-
-
-      //chiamata ajax per ottenere i film
-      $.ajax({
-          'url': 'https://api.themoviedb.org/3' + '/search/movie',
-          'data': {
-              'api_key': '6b3cd5d3e2b37d08e79608e6b6eaa004',
-              'query': filmCercato
-          },
-          'method': 'GET',
-          'success': function(data){
-
-              var filmTrovati = data.results;
-              // console.log(filmTrovati);
-
-              stampaRisultati(filmTrovati);
-
-          },
-          'error': function(){
-              alert('error');
-          }
-
-      });
-      //chiamata ajax per ottenere le serie
-      $.ajax({
-          'url': 'https://api.themoviedb.org/3' + '/search/tv',
-          'data': {
-              'api_key': '6b3cd5d3e2b37d08e79608e6b6eaa004',
-              'query': filmCercato
-          },
-          'method': 'GET',
-          'success': function(data){
-
-              var serieTrovate = data.results;
-
-              stampaRisultati(serieTrovate);
-
-          },
-          'error': function(){
-              alert('error');
-          }
-
-      });
   });
+
+
+
       // $('.movie').mouseenter(function(){
       //     $(this).children('.copertina').removeClass('active');
       //     $(this).children('.info').addClass('active');
@@ -71,6 +40,68 @@ $(document).ready(function(){
 
 
 });
+
+function getResults(){
+    // trovo il testo inserito dall'utente
+    var filmCercato = $('#movies-text').val();
+
+    //predispongo una variabile per recuperare la lingua desiderata
+    var lang = $('.lingua').val();
+
+    //resetto l'input dopo aver cercato il film
+    $('#movies-text').val('');
+
+    //nascondo tutti i risultati ogni volta che mando una nuova ricerca
+    $('.container').empty();
+
+    // ad ogni clik faccio una chiamata ajax
+
+    //chiamata ajax per ottenere i film
+    $.ajax({
+        'url': 'https://api.themoviedb.org/3' + '/search/movie',
+        'data': {
+            'api_key': '6b3cd5d3e2b37d08e79608e6b6eaa004',
+            'query': filmCercato,
+            'language':lang
+        },
+        'method': 'GET',
+        'success': function(data){
+
+            var filmTrovati = data.results;
+            console.log(filmTrovati);
+
+            stampaRisultati(filmTrovati);
+
+        },
+        'error': function(){
+            alert('error');
+        }
+
+    });
+    //chiamata ajax per ottenere le serie
+    $.ajax({
+        'url': 'https://api.themoviedb.org/3' + '/search/tv',
+        'data': {
+            'api_key': '6b3cd5d3e2b37d08e79608e6b6eaa004',
+            'query': filmCercato,
+            'language': lang
+        },
+        'method': 'GET',
+        'success': function(data){
+
+            var serieTrovate = data.results;
+
+            stampaRisultati(serieTrovate);
+
+        },
+        'error': function(){
+            alert('error');
+        }
+
+    });
+
+
+}
 
 function votoToStelle(votoTrovato){
 
@@ -136,6 +167,7 @@ function stampaRisultati(filmTrovati){
 
         var linguaTrovata = filmTrovato.original_language;
         var descrizioneTrovata = filmTrovato.overview;
+        var genereFilm = filmTrovato.genre_ids;
 
         // controllo se la copertina è presente nella API
         // se è cosi la metto nella variabile copertinaTrovata
@@ -147,18 +179,43 @@ function stampaRisultati(filmTrovati){
         };
 
         var context = {
+            id: filmTrovato.id,
             titolo: '<h2>' + titoloTrovato + '</h2>',
             titolo_originale: titoloOriginaleTrovato,
             tipo: tipo,
             lingua: votoToStelle(votoTrovato),
             voto: bandiere(linguaTrovata),
             copertina_film: copertinaTrovata,
-            descrizione: descrizioneTrovata
+            descrizione: descrizioneTrovata,
+            genere: genereFilm
+
         };
-        console.log(context);
+        // console.log(context);
 
     var html = template(context);
         $('.container').append(html);
 
     };
 };
+
+
+// function GetGenre(){
+//
+//     $.ajax({
+//         'url': 'https://api.themoviedb.org/3' + '/genre/movie/list',
+//         'data': {
+//             'api_key': '6b3cd5d3e2b37d08e79608e6b6eaa004',
+//         },
+//         'method': 'GET',
+//         'success': function(data){
+//             var genereTrovato = data.results
+//             console.log(genereTrovato);
+//
+//
+//         },
+//         'error': function(){
+//             alert('error');
+//         }
+//     })
+//
+// };
